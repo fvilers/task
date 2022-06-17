@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 
 import { Command, InvalidArgumentError } from "commander";
-import { listTasks } from "./commands";
+import { createTask, listTasks } from "./commands";
 
 const program = new Command();
 program.name("task").description("A simple command line to-do manager");
@@ -10,9 +10,8 @@ program
   .command("add")
   .description("add a task")
   .argument("<task>", "The task", ensureTaskNotEmpty)
-  .action((task) => {
-    // TODO: create the task
-    console.log("Creating task '", task, "'");
+  .action(async (task) => {
+    const id = await createTask(task);
   });
 
 program

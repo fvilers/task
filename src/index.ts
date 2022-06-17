@@ -1,6 +1,8 @@
 #! /usr/bin/env node
 
+import chalk from "chalk";
 import { Command, InvalidArgumentError } from "commander";
+import { getBorderCharacters, table } from "table";
 import { createTask, deleteTask, listTasks, markTask } from "./commands";
 
 const UNEXPECTED_ERROR = "An unexpected error has occurred";
@@ -27,10 +29,15 @@ program
   .action(async (options) => {
     try {
       const tasks = await listTasks(options.all);
+      const data = tasks.map(({ id, task, done }) => [
+        done ? chalk.dim(id) : id,
+        done ? "☑️" : "🔲",
+        done ? chalk.dim(task) : task,
+      ]);
 
-      for (const { id, task, done } of tasks) {
-        console.log(`${id}\t${task}\t${done ? "✔️" : ""}`);
-      }
+      console.log(
+        table(data, { border: getBorderCharacters("void"), singleLine: true })
+      );
     } catch (e) {
       program.error(e instanceof Error ? e.message : UNEXPECTED_ERROR);
     }

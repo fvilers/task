@@ -34,7 +34,9 @@
     "@fvilers/is-boolean": "^1.0.0",
     "@fvilers/is-number": "^1.0.1",
     "@fvilers/is-string": "^1.0.0",
-    "commander": "^9.3.0"
+    "chalk": "^4.1.2",
+    "commander": "^9.3.0",
+    "table": "^6.8.0"
   },
   "devDependencies": {
     "@tsconfig/node16": "^1.0.3",

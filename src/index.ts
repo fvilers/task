@@ -29,6 +29,11 @@ program
   .action(async (options) => {
     try {
       const tasks = await listTasks(options.all);
+
+      if (tasks.length === 0) {
+        return;
+      }
+
       const data = tasks.map(({ id, task, done }) => [
         done ? chalk.dim(id) : id,
         done ? "☑️" : "🔲",

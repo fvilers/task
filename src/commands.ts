@@ -22,6 +22,24 @@ export async function listTasks(includeDone: boolean = false): Promise<Task[]> {
   return tasks.filter((task) => includeDone || !task.done);
 }
 
+export async function updateTask(
+  id: number,
+  task: string
+): Promise<Task | undefined> {
+  const tasks = await readTasks(DEFAULT_FILENAME);
+  const updatedTask = tasks.find((task) => task.id === id);
+
+  if (updatedTask === undefined) {
+    return updatedTask;
+  }
+
+  updatedTask.task = task;
+
+  await saveTasks(DEFAULT_FILENAME, tasks);
+
+  return updatedTask;
+}
+
 export async function markTask(
   id: number,
   done: boolean

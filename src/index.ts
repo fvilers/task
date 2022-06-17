@@ -13,6 +13,7 @@ import {
   markTask,
   resetTasks,
   swapTasks,
+  updateTask,
 } from "./commands";
 
 const UNEXPECTED_ERROR = "An unexpected error has occurred";
@@ -57,6 +58,23 @@ program
       console.log(
         table(data, { border: getBorderCharacters("void"), singleLine: true })
       );
+    } catch (e) {
+      program.error(e instanceof Error ? e.message : UNEXPECTED_ERROR);
+    }
+  });
+
+program
+  .command("update")
+  .description("update a task")
+  .argument("<id>", "The task ID", ensureTaskIdAsInteger)
+  .argument("<task>", "The updated task", ensureTaskNotEmpty)
+  .action(async (id, task) => {
+    try {
+      const updatedTask = await updateTask(id, task);
+
+      if (updatedTask === undefined) {
+        program.error("This task ID doesn't exists");
+      }
     } catch (e) {
       program.error(e instanceof Error ? e.message : UNEXPECTED_ERROR);
     }

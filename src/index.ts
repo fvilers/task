@@ -3,6 +3,8 @@
 import { Command, InvalidArgumentError } from "commander";
 import { createTask, deleteTask, listTasks, markTask } from "./commands";
 
+const UNEXPECTED_ERROR = "An unexpected error has occurred";
+
 const program = new Command();
 program.name("task").description("A simple command line to-do manager");
 
@@ -11,7 +13,11 @@ program
   .description("add a task")
   .argument("<task>", "The task", ensureTaskNotEmpty)
   .action(async (task) => {
-    const id = await createTask(task);
+    try {
+      await createTask(task);
+    } catch (e) {
+      program.error(e instanceof Error ? e.message : UNEXPECTED_ERROR);
+    }
   });
 
 program
@@ -19,10 +25,14 @@ program
   .description("list tasks")
   .option("-a, --all", "Include done tasks")
   .action(async (options) => {
-    const tasks = await listTasks(options.all);
+    try {
+      const tasks = await listTasks(options.all);
 
-    for (const { id, task, done } of tasks) {
-      console.log(`${id}\t${task}\t${done ? "✔️" : ""}`);
+      for (const { id, task, done } of tasks) {
+        console.log(`${id}\t${task}\t${done ? "✔️" : ""}`);
+      }
+    } catch (e) {
+      program.error(e instanceof Error ? e.message : UNEXPECTED_ERROR);
     }
   });
 
@@ -31,10 +41,14 @@ program
   .description("mark a task as done")
   .argument("<id>", "The task ID", ensureTaskIdAsInteger)
   .action(async (id) => {
-    const task = await markTask(id, true);
+    try {
+      const task = await markTask(id, true);
 
-    if (task === undefined) {
-      program.error("This task ID doesn't exists");
+      if (task === undefined) {
+        program.error("This task ID doesn't exists");
+      }
+    } catch (e) {
+      program.error(e instanceof Error ? e.message : UNEXPECTED_ERROR);
     }
   });
 
@@ -43,10 +57,14 @@ program
   .description("mark a task as undone")
   .argument("<id>", "The task ID", ensureTaskIdAsInteger)
   .action(async (id) => {
-    const task = await markTask(id, false);
+    try {
+      const task = await markTask(id, false);
 
-    if (task === undefined) {
-      program.error("This task ID doesn't exists");
+      if (task === undefined) {
+        program.error("This task ID doesn't exists");
+      }
+    } catch (e) {
+      program.error(e instanceof Error ? e.message : UNEXPECTED_ERROR);
     }
   });
 
@@ -55,10 +73,14 @@ program
   .description("delete a task")
   .argument("<id>", "The task ID", ensureTaskIdAsInteger)
   .action(async (id) => {
-    const deleted = await deleteTask(id);
+    try {
+      const deleted = await deleteTask(id);
 
-    if (!deleted) {
-      program.error("This task ID doesn't exists");
+      if (!deleted) {
+        program.error("This task ID doesn't exists");
+      }
+    } catch (e) {
+      program.error(e instanceof Error ? e.message : UNEXPECTED_ERROR);
     }
   });
 

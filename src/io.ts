@@ -1,6 +1,7 @@
 import { constants } from "node:fs";
 import fs from "node:fs/promises";
-import Task from "./task";
+import FileFormatError from "./FileFormatError";
+import Task, { taskReviver } from "./task";
 
 export async function readTasks(filename: string): Promise<Task[]> {
   const fileExists = await exists(filename);
@@ -13,10 +14,9 @@ export async function readTasks(filename: string): Promise<Task[]> {
 
   const buffer = await fs.readFile(filename);
   const json = buffer.toString();
+  const tasks = tryParse(json);
 
-  // TODO: verify that JSON is an array of tasks
-
-  return JSON.parse(json);
+  return tasks;
 }
 
 export function saveTasks(filename: string, tasks: Task[]): Promise<void> {
@@ -29,5 +29,13 @@ async function exists(filename: string): Promise<boolean> {
     return true;
   } catch (e) {
     return false;
+  }
+}
+
+function tryParse(json: string): Task[] {
+  try {
+    return JSON.parse(json, taskReviver);
+  } catch (e) {
+    throw new FileFormatError();
   }
 }

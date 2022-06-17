@@ -4,6 +4,7 @@ import sortArray from "@fvilers/sort-array";
 import chalk from "chalk";
 import { Command, InvalidArgumentError } from "commander";
 import { getBorderCharacters, table } from "table";
+import { description, name, version } from "../package.json";
 import {
   createTask,
   DEFAULT_FILENAME,
@@ -17,7 +18,10 @@ import {
 const UNEXPECTED_ERROR = "An unexpected error has occurred";
 
 const program = new Command();
-program.name("task").description("A simple command line to-do manager");
+program
+  .name(name.replace("@fvilers/", ""))
+  .version(version)
+  .description(description);
 
 program
   .command("add")

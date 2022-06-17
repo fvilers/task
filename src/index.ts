@@ -1,9 +1,16 @@
 #! /usr/bin/env node
 
+import sortArray from "@fvilers/sort-array";
 import chalk from "chalk";
 import { Command, InvalidArgumentError } from "commander";
 import { getBorderCharacters, table } from "table";
-import { createTask, deleteTask, listTasks, markTask } from "./commands";
+import {
+  createTask,
+  deleteTask,
+  listTasks,
+  markTask,
+  swapTasks,
+} from "./commands";
 
 const UNEXPECTED_ERROR = "An unexpected error has occurred";
 
@@ -34,7 +41,7 @@ program
         return;
       }
 
-      const data = tasks.map(({ id, task, done }) => [
+      const data = sortArray(tasks, "id").map(({ id, task, done }) => [
         done ? chalk.dim(id) : id,
         done ? "☑️" : "🔲",
         done ? chalk.dim(task) : task,
@@ -43,7 +50,6 @@ program
       console.log(
         table(data, { border: getBorderCharacters("void"), singleLine: true })
       );
-      console.log("ok");
     } catch (e) {
       program.error(e instanceof Error ? e.message : UNEXPECTED_ERROR);
     }
@@ -91,6 +97,27 @@ program
 
       if (!deleted) {
         program.error("This task ID doesn't exists");
+      }
+    } catch (e) {
+      program.error(e instanceof Error ? e.message : UNEXPECTED_ERROR);
+    }
+  });
+
+program
+  .command("swap")
+  .description("swap tasks")
+  .argument("<id1>", "The first task ID to swap", ensureTaskIdAsInteger)
+  .argument("<id2>", "The second task ID to swap", ensureTaskIdAsInteger)
+  .action(async (id1, id2) => {
+    if (id1 === id2) {
+      return;
+    }
+
+    try {
+      const swapped = await swapTasks(id1, id2);
+
+      if (!swapped) {
+        program.error("One of these tasks ID don't exists");
       }
     } catch (e) {
       program.error(e instanceof Error ? e.message : UNEXPECTED_ERROR);

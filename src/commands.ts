@@ -52,3 +52,25 @@ export async function deleteTask(id: number): Promise<boolean> {
 
   return true;
 }
+
+export async function swapTasks(id1: number, id2: number): Promise<boolean> {
+  const tasks = await readTasks(DEFAULT_FILENAME);
+  const task1 = tasks.find((task) => task.id === id1);
+
+  if (task1 === undefined) {
+    return false;
+  }
+
+  const task2 = tasks.find((task) => task.id === id2);
+
+  if (task2 === undefined) {
+    return false;
+  }
+
+  task1.id = id2;
+  task2.id = id1;
+
+  await saveTasks(DEFAULT_FILENAME, tasks);
+
+  return true;
+}

@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "description": "A simple command line to-do manager",
   "scripts": {
+    "build": "tsc",
+    "start": "node ./dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,5 +24,10 @@
   "bugs": {
     "url": "https://github.com/fvilers/task/issues"
   },
-  "homepage": "https://github.com/fvilers/task#readme"
+  "homepage": "https://github.com/fvilers/task#readme",
+  "devDependencies": {
+    "@tsconfig/node16": "^1.0.3",
+    "@types/node": "^16.11.41",
+    "typescript": "^4.7.3"
+  }
 }

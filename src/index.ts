@@ -43,6 +43,7 @@ program
       console.log(
         table(data, { border: getBorderCharacters("void"), singleLine: true })
       );
+      console.log("ok");
     } catch (e) {
       program.error(e instanceof Error ? e.message : UNEXPECTED_ERROR);
     }
@@ -96,6 +97,7 @@ program
     }
   });
 
+program.showHelpAfterError();
 program.parse();
 
 function ensureTaskNotEmpty(task: string): string {

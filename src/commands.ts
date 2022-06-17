@@ -21,3 +21,21 @@ export async function listTasks(includeDone: boolean = false): Promise<Task[]> {
 
   return tasks.filter((task) => includeDone || !task.done);
 }
+
+export async function markTask(
+  id: number,
+  done: boolean
+): Promise<Task | undefined> {
+  const tasks = await readTasks(DEFAULT_FILENAME);
+  const task = tasks.find((task) => task.id === id);
+
+  if (task === undefined) {
+    return task;
+  }
+
+  task.done = done;
+
+  await saveTasks(DEFAULT_FILENAME, tasks);
+
+  return task;
+}

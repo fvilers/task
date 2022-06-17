@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "A simple command line to-do manager",
   "bin": {
-    "task": "./dist/index.js"
+    "task": "./dist/src/index.js"
   },
   "scripts": {
     "build": "tsc",

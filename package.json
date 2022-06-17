@@ -25,6 +25,9 @@
     "url": "https://github.com/fvilers/task/issues"
   },
   "homepage": "https://github.com/fvilers/task#readme",
+  "dependencies": {
+    "commander": "^9.3.0"
+  },
   "devDependencies": {
     "@tsconfig/node16": "^1.0.3",
     "@types/node": "^16.11.41",

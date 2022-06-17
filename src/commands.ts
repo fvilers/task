@@ -3,7 +3,7 @@ import path from "path";
 import { readTasks, saveTasks } from "./io";
 import Task from "./task";
 
-const DEFAULT_FILENAME = path.join(os.homedir(), "tasks.json");
+export const DEFAULT_FILENAME = path.join(os.homedir(), "tasks.json");
 
 export async function createTask(task: string): Promise<number> {
   const tasks = await readTasks(DEFAULT_FILENAME);

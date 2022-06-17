@@ -6,6 +6,7 @@ import { Command, InvalidArgumentError } from "commander";
 import { getBorderCharacters, table } from "table";
 import {
   createTask,
+  DEFAULT_FILENAME,
   deleteTask,
   listTasks,
   markTask,
@@ -131,6 +132,23 @@ program
   .action(async () => {
     try {
       await resetTasks();
+    } catch (e) {
+      program.error(e instanceof Error ? e.message : UNEXPECTED_ERROR);
+    }
+  });
+
+program
+  .command("infos")
+  .description("get information about your tasks")
+  .action(async () => {
+    try {
+      const tasks = await listTasks(true);
+      const done = tasks.filter((task) => task.done);
+
+      console.log("File location:   ", DEFAULT_FILENAME);
+      console.log("Done tasks:      ", done.length);
+      console.log("Remaining tasks: ", tasks.length - done.length);
+      console.log("Total tasks:     ", tasks.length);
     } catch (e) {
       program.error(e instanceof Error ? e.message : UNEXPECTED_ERROR);
     }

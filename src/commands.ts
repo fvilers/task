@@ -7,7 +7,7 @@ const DEFAULT_FILENAME = path.join(os.homedir(), "tasks.json");
 
 export async function createTask(task: string): Promise<number> {
   const tasks = await readTasks(DEFAULT_FILENAME);
-  const id = Math.max(...tasks.map(({ id }) => id)) + 1;
+  const id = getNextId(tasks);
 
   tasks.push({ id, task, done: false });
 
@@ -51,4 +51,12 @@ export async function deleteTask(id: number): Promise<boolean> {
   await saveTasks(DEFAULT_FILENAME, newTasks);
 
   return true;
+}
+
+function getNextId(tasks: Task[]): number {
+  if (tasks.length === 0) {
+    return 1;
+  }
+
+  return Math.max(...tasks.map(({ id }) => id)) + 1;
 }

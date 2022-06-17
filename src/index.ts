@@ -9,6 +9,7 @@ import {
   deleteTask,
   listTasks,
   markTask,
+  resetTasks,
   swapTasks,
 } from "./commands";
 
@@ -119,6 +120,17 @@ program
       if (!swapped) {
         program.error("One of these tasks ID don't exists");
       }
+    } catch (e) {
+      program.error(e instanceof Error ? e.message : UNEXPECTED_ERROR);
+    }
+  });
+
+program
+  .command("reset")
+  .description("empty the task list")
+  .action(async () => {
+    try {
+      await resetTasks();
     } catch (e) {
       program.error(e instanceof Error ? e.message : UNEXPECTED_ERROR);
     }

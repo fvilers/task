@@ -74,3 +74,9 @@ export async function swapTasks(id1: number, id2: number): Promise<boolean> {
 
   return true;
 }
+
+export async function resetTasks(): Promise<void> {
+  const tasks: Task[] = [];
+
+  await saveTasks(DEFAULT_FILENAME, tasks);
+}

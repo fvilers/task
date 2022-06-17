@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-import { Command } from "commander";
+import { Command, InvalidArgumentError } from "commander";
 
 const program = new Command();
 program.name("task").description("A simple command line to-do manager");
@@ -8,9 +8,10 @@ program.name("task").description("A simple command line to-do manager");
 program
   .command("add")
   .description("add a task")
-  .argument("<task>", "The task")
+  .argument("<task>", "The task", ensureTaskNotEmpty)
   .action((task) => {
     // TODO: create the task
+    console.log("Creating task '", task, "'");
   });
 
 program
@@ -24,7 +25,7 @@ program
 program
   .command("done")
   .description("mark a task as done")
-  .argument("<id>", "The task ID")
+  .argument("<id>", "The task ID", ensureTaskIdAsInteger)
   .action((id) => {
     // TODO: mark task as done
   });
@@ -32,7 +33,7 @@ program
 program
   .command("undone")
   .description("mark a task as undone")
-  .argument("<id>", "The task ID")
+  .argument("<id>", "The task ID", ensureTaskIdAsInteger)
   .action((id) => {
     // TODO: reset task to undone
   });
@@ -40,9 +41,27 @@ program
 program
   .command("delete")
   .description("delete a task")
-  .argument("<id>", "The task ID")
+  .argument("<id>", "The task ID", ensureTaskIdAsInteger)
   .action((id) => {
     // TODO: delete task
   });
 
 program.parse();
+
+function ensureTaskNotEmpty(task: string): string {
+  if (task === "") {
+    throw new InvalidArgumentError("Task must not be empty.");
+  }
+
+  return task;
+}
+
+function ensureTaskIdAsInteger(value: string): number {
+  const id = parseInt(value, 10);
+
+  if (isNaN(id)) {
+    throw new InvalidArgumentError("Task ID must not be an integer.");
+  }
+
+  return id;
+}

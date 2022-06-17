@@ -1,6 +1,7 @@
 #! /usr/bin/env node
 
 import { Command, InvalidArgumentError } from "commander";
+import { listTasks } from "./commands";
 
 const program = new Command();
 program.name("task").description("A simple command line to-do manager");
@@ -18,8 +19,12 @@ program
   .command("list")
   .description("list tasks")
   .option("-a, --all", "Include done tasks")
-  .action((options) => {
-    // TODO: get tasks and list them
+  .action(async (options) => {
+    const tasks = await listTasks(options.all);
+
+    for (const { id, task, done } of tasks) {
+      console.log(`${id}\t${task}\t${done ? "✔️" : ""}`);
+    }
   });
 
 program

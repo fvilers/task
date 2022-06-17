@@ -47,10 +47,11 @@ program
         return;
       }
 
+      const color = (done: boolean) => (done ? chalk.dim : chalk.reset);
       const data = sortArray(tasks, "id").map(({ id, task, done }) => [
-        done ? chalk.dim(id) : id,
+        color(done)(id),
         done ? "☑️" : "🔲",
-        done ? chalk.dim(task) : task,
+        color(done)(task),
       ]);
 
       console.log(

@@ -39,3 +39,16 @@ export async function markTask(
 
   return task;
 }
+
+export async function deleteTask(id: number): Promise<boolean> {
+  const tasks = await readTasks(DEFAULT_FILENAME);
+  const newTasks = tasks.filter((task) => task.id !== id);
+
+  if (tasks.length === newTasks.length) {
+    return false;
+  }
+
+  await saveTasks(DEFAULT_FILENAME, newTasks);
+
+  return true;
+}

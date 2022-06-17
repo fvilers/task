@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 
 import { Command, InvalidArgumentError } from "commander";
-import { createTask, listTasks, markTask } from "./commands";
+import { createTask, deleteTask, listTasks, markTask } from "./commands";
 
 const program = new Command();
 program.name("task").description("A simple command line to-do manager");
@@ -54,8 +54,12 @@ program
   .command("delete")
   .description("delete a task")
   .argument("<id>", "The task ID", ensureTaskIdAsInteger)
-  .action((id) => {
-    // TODO: delete task
+  .action(async (id) => {
+    const deleted = await deleteTask(id);
+
+    if (!deleted) {
+      program.error("This task ID doesn't exists");
+    }
   });
 
 program.parse();

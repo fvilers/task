@@ -2,8 +2,12 @@
   "name": "@fvilers/task",
   "version": "0.0.0",
   "description": "A simple command line to-do manager",
+  "bin": {
+    "task": "./dist/index.js"
+  },
   "scripts": {
     "build": "tsc",
+    "prepare": "npm run build",
     "start": "node ./dist",
     "start:dev": "ts-node ./src",
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -205,7 +205,7 @@ program.addHelpText(
   "after",
   `
 Examples:
-  $ task add "Make the dishes"  # create a task
+  $ task add "Do the dishes"    # create a task
   $ task list                   # list active tasks
   $ task done 42                # mark task 42 as done`
 );

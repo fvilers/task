@@ -13,7 +13,7 @@ npm install -g @fvilers/task
 ### Create a task
 
 ```
-task add "Make the dishes"
+task add "Do the dishes"
 ```
 
 ### List tasks

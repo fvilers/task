@@ -153,8 +153,9 @@ program
 
 program
   .command("reset")
+  .option("-f, --force", "Don't prompt for confirmation")
   .description("empty the task list")
-  .action(async () => {
+  .action(async (options) => {
     try {
       const tasks = await listTasks();
       const count = tasks.length;
@@ -163,12 +164,18 @@ program
         return;
       }
 
-      const pluralized = pluralize(count, `${count} task`);
-      const answer = await question(
-        `Are your sure you want to permanently delete ${pluralized} (y/n)?`
-      );
+      let proceed = options.force === true;
 
-      if (["y", "yes"].includes(answer.toLowerCase())) {
+      if (!proceed) {
+        const pluralized = pluralize(count, `${count} task`);
+        const answer = await question(
+          `Are your sure you want to permanently delete ${pluralized} (y/n)?`
+        );
+
+        proceed = ["y", "yes"].includes(answer.toLowerCase());
+      }
+
+      if (proceed) {
         await resetTasks();
       }
     } catch (e) {

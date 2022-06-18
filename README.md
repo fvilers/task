@@ -73,7 +73,7 @@ task swap 1 2
 
 ### Empty the task list
 
-Warning, this action is irreversible but a confirmation prompt is displayed.
+Warning, this action is irreversible but a confirmation prompt is displayed. The confirmation prompte can be bypassed with the `-f` o `--force` flag.
 
 ```
 task reset

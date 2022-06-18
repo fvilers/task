@@ -15,6 +15,8 @@ import {
   swapTasks,
   updateTask,
 } from "./commands";
+import pluralize from "./plural";
+import question from "./question";
 
 const UNEXPECTED_ERROR = "An unexpected error has occurred";
 
@@ -154,7 +156,21 @@ program
   .description("empty the task list")
   .action(async () => {
     try {
-      await resetTasks();
+      const tasks = await listTasks();
+      const count = tasks.length;
+
+      if (count === 0) {
+        return;
+      }
+
+      const pluralized = pluralize(count, `${count} task`);
+      const answer = await question(
+        `Are your sure you want to permanently delete ${pluralized} (y/n)?`
+      );
+
+      if (["y", "yes"].includes(answer.toLowerCase())) {
+        await resetTasks();
+      }
     } catch (e) {
       program.error(e instanceof Error ? e.message : UNEXPECTED_ERROR);
     }

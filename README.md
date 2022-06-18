@@ -25,7 +25,7 @@ task list
 ```
 
 ```
- 1  🔲  Task out the trash
+ 1  🔲  Take out the trash
  2  🔲  Do the dishes
 ```
 
@@ -33,6 +33,12 @@ task list
 
 ```
 task list --all
+```
+
+```
+ 1  🔲  Take out the trash
+ 2  🔲  Do the dishes
+ 3  ☑️  Have good time
 ```
 
 ### Update a task
@@ -56,7 +62,7 @@ task undone 1
 ### Delete a task
 
 ```
-task delete 1
+task delete 3
 ```
 
 ### Swap tasks
@@ -67,10 +73,14 @@ task swap 1 2
 
 ### Empty the task list
 
-Warning, this is irreversible
+Warning, this action is irreversible but a confirmation prompt is displayed.
 
 ```
 task reset
+```
+
+```
+Are your sure you want to permanently delete 2 tasks (y/n)?
 ```
 
 ### Get informations about your task list
@@ -80,6 +90,8 @@ task infos
 ```
 
 ```
- 1  🔲  Ask the kids to do the dishes
- 2  🔲  Take out the trash
+File location:    C:\Users\Fabian\tasks.json
+Done tasks:       1
+Remaining tasks:  2
+Total tasks:      3
 ```

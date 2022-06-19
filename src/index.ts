@@ -56,10 +56,12 @@ program
         done ? "☑️" : "🔲",
         color(done)(task),
       ]);
+      const output = table(data, {
+        border: getBorderCharacters("void"),
+        singleLine: true,
+      });
 
-      console.log(
-        table(data, { border: getBorderCharacters("void"), singleLine: true })
-      );
+      console.log(output.replace(/\n+$/g, ""));
     } catch (e) {
       program.error(e instanceof Error ? e.message : UNEXPECTED_ERROR);
     }

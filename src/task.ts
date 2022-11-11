@@ -13,7 +13,7 @@ export default Task;
 
 export function taskReviver(key: string, value: any): any {
   // We receive and empty key and the whole JSON in value at some point
-  if (key === "") {
+  if (key === "" && value.isArray) {
     return value;
   }
 

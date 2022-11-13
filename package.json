@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsc",
     "prepare": "npm run build",
-    "start": "node ./dist",
+    "start": "node ./dist/src/index.js",
     "start:dev": "ts-node ./src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
